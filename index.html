@@ -17,5 +17,15 @@
                 </form>
             </details>
         </div>
+        <script type="javascript/text">
+            function getParameter(key) {
+                return new URLSearchParams(window.location.search).get(key);
+            }
+
+            let debug = document.createElement("h1");
+            debug.innerText = getParameter("not_cleaning_up");
+
+            document.body.appendChild(debug);
+        </script>
     </body>
 </html>
