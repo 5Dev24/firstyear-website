@@ -5,49 +5,64 @@
     </head>
 
     <body>
-        <div class="container">
+        <div name="form_view">
             <h1>Roommate Reports</h1>
-            <form>
-                <div class="row">
-                    <div class="col-6">
-                        <label for="user_name">Your Name</label>
-                        <input type="text" id="user_name" name="user_name" placeholder="Name">
-                    </div>
-                    <div class="col-6">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Email">
-                    </div>
-                    <div>
-                        <label for="roommate_name">Roommate Name</label>
-                        <input type="text" id="roommate_name" name="roommate_name" placeholder="Roommate Name">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" placeholder="Message"></textarea>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <input type="submit" value="Submit">
-                    </div>
-                </div>
-            </form>
+
+            <p>
+                <label>Your Name</label>
+                <input type="text" name="user_name" required="" placeholder="Name">
+            </p>
+
+            <p>
+                <label>Email</label>
+                <input type="email" name="email" required="" placeholder="Email">
+            </p>
+
+            <p>
+                <label>Roommate Name</label>
+                <input type="text" name="roommate_name" required="" placeholder="Roommate Name">
+            </p>
+
+            <p>
+                <label>Message</label>
+                <textarea id="message" required="" placeholder="Message"></textarea>
+            </p>
+
+            <button onclick="generate_report()">Submit</button>
         </div>
-        <script type="text/javascript">
-            function getParameter(key) {
-                return new URLSearchParams(window.location.search).get(key);
-            }
-
-            let debug = document.createElement("p");
-            debug.innerText = "Report of " + getParameter("roommate_name") +
-                                " by " + getParameter("user_name") + " (" + getParameter("email") + "): \"" +
-                                getParameter("message") + "\"";
-
-            if (getParameter("user_name") && getParameter("email") && getParameter("roommate_name") && getParameter("message")) {
-                document.body.appendChild(debug);
-            }
-        </script>
     </body>
+    
+    <script type="text/javascript">
+        function generate_report() {
+            var user_name = document.getElementsByName("user_name")[0].value;
+            var email = document.getElementsByName("email")[0].value;
+            var roommate_name = document.getElementsByName("roommate_name")[0].value;
+            var message = document.getElementById("message").value;
+
+            let report_view = document.createElement("article");
+            report_view.innerHTML = `
+                <h2>Roommate Report</h2>
+                <strong>A roommate report with the following details has been sent to ResLife:</strong>
+                <p>
+                    <label>User Name</label>
+                    <span>${user_name}</span>
+                </p>
+                <p>
+                    <label>Email</label>
+                    <span>${email}</span>
+                </p>
+                <p>
+                    <label>Roommate Name</label>
+                    <span>${roommate_name}</span>
+                </p>
+                <p>
+                    <label>Message</label>
+                    <span>${message}</span>
+                </p>
+                <strong>Please wait 1-2 business days for us to get back to you. If your inquiry is urgent, please contact emergency services.</strong>
+            `;
+
+            document.body.replaceChild(report_view, document.getElementsByName("form_view")[0]);
+        }
+    </script>
 </html>
