@@ -7,25 +7,47 @@
     <body>
         <div class="container">
             <h1>Roommate Reports</h1>
-            <p>What would you like to report your roommate for?</p>
-            <details>
-                <summary>Not cleaning up after themselves</summary>
-                <p>What did they do?</p>
-                <form>
-                    <input type="text" name="not_cleaning_up" placeholder="Something bad...">
-                    <input type="submit" value="Report">
-                </form>
-            </details>
+            <form>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="user_name">Your Name</label>
+                        <input type="text" id="user_name" name="user_name" placeholder="Name">
+                    </div>
+                    <div class="col-6">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Email">
+                    </div>
+                    <div>
+                        <label for="roommate_name">Roommate Name</label>
+                        <input type="text" id="roommate_name" name="roommate_name" placeholder="Roommate Name">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Message"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <input type="submit" value="Submit">
+                    </div>
+                </div>
+            </form>
         </div>
         <script type="text/javascript">
             function getParameter(key) {
                 return new URLSearchParams(window.location.search).get(key);
             }
 
-            let debug = document.createElement("h1");
-            debug.innerText = getParameter("not_cleaning_up");
+            let debug = document.createElement("p");
+            debug.innerText = "Report of " + getParameter("roommate_name") +
+                                " by " + getParameter("user_name") + " (" + getParameter("email") + "): \"" +
+                                getParameter("message") + "\"";
 
-            document.body.appendChild(debug);
+            if (getParameter("user_name") && getParameter("email") && getParameter("roommate_name") && getParameter("message")) {
+                document.body.appendChild(debug);
+            }
         </script>
     </body>
 </html>
