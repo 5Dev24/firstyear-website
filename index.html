@@ -1,68 +1,68 @@
-<html>
+<html lang="en">
     <head>
         <title>Roommate Reports</title>
         <link rel="stylesheet" href="public/simple.min.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
     </head>
 
     <body>
-        <div name="form_view">
+        <div>
             <h1>Roommate Reports</h1>
 
+            <article>
+                <span>Using this form, you can report a problem with your roommate, and the details of that report will be sent to Residential Life.</span>
+            </article>
+
             <p>
-                <label>Your Name</label>
-                <input type="text" name="user_name" required="" placeholder="Name">
+                <label for="user_name">Your Name</label>
+                <input type="text" id="user_name" required="" placeholder="Name">
             </p>
 
             <p>
-                <label>Email</label>
-                <input type="email" name="email" required="" placeholder="Email">
+                <label for="email">Email</label>
+                <input type="email" id="email" required="" placeholder="Email">
             </p>
 
             <p>
-                <label>Roommate Name</label>
-                <input type="text" name="roommate_name" required="" placeholder="Roommate Name">
+                <label for="roommate_name">Roommate Name</label>
+                <input type="text" id="roommate_name" required="" placeholder="Roommate Name">
             </p>
 
             <p>
-                <label>Message</label>
+                <label for="message">Message</label>
                 <textarea id="message" required="" placeholder="Message"></textarea>
             </p>
 
-            <button onclick="generate_report()">Submit</button>
+            <p>
+                <button id="submit">Submit</button>
+            </p>
         </div>
     </body>
     
     <script type="text/javascript">
         function generate_report() {
-            var user_name = document.getElementsByName("user_name")[0].value;
-            var email = document.getElementsByName("email")[0].value;
-            var roommate_name = document.getElementsByName("roommate_name")[0].value;
-            var message = document.getElementById("message").value;
+            let user_name = document.getElementById("user_name").value;
+            let email = document.getElementById("email").value;
+            let roommate_name = document.getElementById("roommate_name").value;
+            let message = document.getElementById("message").value;
 
             let report_view = document.createElement("article");
-            report_view.innerHTML = `
-                <h2>Roommate Report</h2>
-                <strong>A roommate report with the following details has been sent to ResLife:</strong>
-                <p>
-                    <label>User Name</label>
-                    <span>${user_name}</span>
-                </p>
-                <p>
-                    <label>Email</label>
-                    <span>${email}</span>
-                </p>
-                <p>
-                    <label>Roommate Name</label>
-                    <span>${roommate_name}</span>
-                </p>
-                <p>
-                    <label>Message</label>
-                    <span>${message}</span>
-                </p>
-                <strong>Please wait 1-2 business days for us to get back to you. If your inquiry is urgent, please contact emergency services.</strong>
-            `;
+            report_view.appendChild(document.createElement("h1")).innerHTML = "Roommate Report";
+            report_view.appendChild(document.createElement("strong")).innerHTML = "A roommate report with the following details has been sent to ResLife:";
+            report_view.appendChild(document.createElement("p")).innerHTML = "User Name: " + user_name;
+            report_view.appendChild(document.createElement("p")).innerHTML = "Email: " + email;
+            report_view.appendChild(document.createElement("p")).innerHTML = "Roommate Name: " + roommate_name;
+            report_view.appendChild(document.createElement("p")).innerHTML = "Message: " + message;
+            report_view.appendChild(document.createElement("strong")).innerHTML = "Please wait 1-2 business days for us to get back to you. If your inquiry is urgent, please contact emergency services.";
 
-            document.body.replaceChild(report_view, document.getElementsByName("form_view")[0]);
+            let report_view_container = document.createElement("p");
+            report_view_container.appendChild(report_view);
+
+            document.body.innerHTML = "";
+            document.body.appendChild(report_view_container);
         }
+
+        document.getElementById("submit").addEventListener("click", generate_report);
     </script>
 </html>
