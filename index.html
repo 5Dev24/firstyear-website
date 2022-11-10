@@ -2,12 +2,13 @@
     <head>
         <title>Roommate Reports</title>
         <link rel="stylesheet" href="public/simple.min.css">
+        <link rel="stylesheet" href="public/index.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
     </head>
 
     <body>
-        <div>
+        <div id="hi0" class="show">
             <h1>Roommate Reports</h1>
 
             <article>
@@ -38,6 +39,22 @@
                 <button id="submit">Submit</button>
             </p>
         </div>
+        <div id="hi1" class="hide">
+            <h1>Roommate Report</h1>
+
+            <article>
+                <span>A roommate report with the following details has been sent to ResLife:</span>
+            </article>
+
+            <p id="user_name_out"></p>
+            <p id="email_out"></p>
+            <p id="roommate_out"></p>
+            <p id="message_out"></p>
+
+            <footer>
+                <strong>Please wait 1-2 business days for us to get back to you. If your inquiry is urgent, please contact emergency services.</strong>
+            </footer>
+        </div>
     </body>
     
     <script type="text/javascript">
@@ -47,20 +64,13 @@
             let roommate_name = document.getElementById("roommate_name").value;
             let message = document.getElementById("message").value;
 
-            let report_view = document.createElement("article");
-            report_view.appendChild(document.createElement("h1")).innerHTML = "Roommate Report";
-            report_view.appendChild(document.createElement("strong")).innerHTML = "A roommate report with the following details has been sent to ResLife:";
-            report_view.appendChild(document.createElement("p")).innerHTML = "User Name: " + user_name;
-            report_view.appendChild(document.createElement("p")).innerHTML = "Email: " + email;
-            report_view.appendChild(document.createElement("p")).innerHTML = "Roommate Name: " + roommate_name;
-            report_view.appendChild(document.createElement("p")).innerHTML = "Message: " + message;
-            report_view.appendChild(document.createElement("strong")).innerHTML = "Please wait 1-2 business days for us to get back to you. If your inquiry is urgent, please contact emergency services.";
+            document.getElementById("user_name_out").innerText = "User Name: " + user_name;
+            document.getElementById("email_out").innerText = "Email: " + email;
+            document.getElementById("roommate_out").innerText = "Roommate Name: " + roommate_name;
+            document.getElementById("message_out").innerText = "Message: " + message;
 
-            let report_view_container = document.createElement("p");
-            report_view_container.appendChild(report_view);
-
-            document.body.innerHTML = "";
-            document.body.appendChild(report_view_container);
+            document.getElementById("hi0").classList = [ "hide" ];
+            document.getElementById("hi1").classList = [ "show" ];
         }
 
         document.getElementById("submit").addEventListener("click", generate_report);
