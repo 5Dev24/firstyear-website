@@ -1,7 +1,1 @@
-.show {
-    display: block;
-}
-
-.hide {
-    display: none;
-}
+.show{display: block;}.hide{display: none;}.indent{text-indent: 15px;}

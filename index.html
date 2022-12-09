@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Roommate Reports</title>
@@ -8,26 +9,41 @@
     </head>
 
     <body>
-        <div id="hi0" class="show">
-            <h1>Roommate Reports</h1>
+        <h1>Roommate Report</h1>
 
+        <div id="hi0" class="show">
             <article>
                 <span>Using this form, you can report a problem with your roommate, and the details of that report will be sent to Residential Life.</span>
             </article>
 
             <p>
-                <label for="user_name">Your Name</label>
-                <input type="text" id="user_name" required="" placeholder="Name">
+                <label for="self_name">Your Name</label>
+                <input type="text" id="self_name" required="" placeholder="Name">
             </p>
 
             <p>
-                <label for="email">Email</label>
-                <input type="email" id="email" required="" placeholder="Email">
+                <label for="self_email">Your Email</label>
+                <input type="email" id="self_email" required="" placeholder="Email">
+            </p>
+
+            <p>
+                <label for="self_nuid">Your NUID</label>
+                <input type="text" id="self_nuid" required="" placeholder="NUID">
             </p>
 
             <p>
                 <label for="roommate_name">Roommate Name</label>
-                <input type="text" id="roommate_name" required="" placeholder="Roommate Name">
+                <input type="text" id="roommate_name" required="" placeholder="Roommate's Name">
+            </p>
+
+            <p>
+                <label for="roommate_email">Roommate Email (Optional)</label>
+                <input type="email" id="roommate_email" placeholder="Roommate's Email">
+            </p>
+
+            <p>
+                <label for="roommate_nuid">Roommate NUID (Optional)</label>
+                <input type="text" id="roommate_nuid" placeholder="Roommate's NUID">
             </p>
 
             <p>
@@ -36,43 +52,88 @@
             </p>
 
             <p>
+                <span>Send a copy to your responses to your email</span>
+                <input type="checkbox" id="send_copy">
+            </p>
+
+            <p>
                 <button id="submit">Submit</button>
             </p>
         </div>
         <div id="hi1" class="hide">
-            <h1>Roommate Report</h1>
-
             <article>
-                <span>A roommate report with the following details has been sent to ResLife:</span>
+                <span>A roommate report with the following details has been sent to ResLife</span>
             </article>
 
-            <p id="user_name_out"></p>
-            <p id="email_out"></p>
-            <p id="roommate_out"></p>
-            <p id="message_out"></p>
+            <p>
+                <b id="self_name_out"></b>
+                <p class="indent" id="self_nuid_out"></p>
+                <p class="indent" id="self_email_out"></p>
+            </p>
+            <p>
+                <b id="roommate_name_out"></b>
+                <p class="indent" id="roommate_nuid_out"></p>
+                <p class="indent" id="roommate_email_out"></p>
+            </p>
+            <p>
+                <b>Message:</b>
+                <p class="indent" id="message_out"></p>
+            </p>
 
-            <footer>
-                <strong>Please wait 1-2 business days for us to get back to you. If your inquiry is urgent, please contact emergency services.</strong>
-            </footer>
+            <article>
+                <p style="margin-top: 0;" id="send_copy_out" class="hide"></p>
+                <footer>
+                    <strong>Please wait 1-2 business days for us to get back to you. If your inquiry is urgent, please contact emergency services.</strong>
+                </footer>
+            </article>
         </div>
     </body>
     
     <script type="text/javascript">
+        // Helpers
+        let dom = (id) => document.getElementById(id);
+        let get = (id) => dom(id).value;
+        let set = (id, value) => dom(id).innerText = value;
+        let del = (id) => dom(id).remove();
+        let checked = (id) => dom(id).checked;
+        function title(str) {
+            str = str.split(" ");
+            for (var i = 0; i < str.length; i++)
+                str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+
+            return str.join(" ");
+        };
+
         function generate_report() {
-            let user_name = document.getElementById("user_name").value;
-            let email = document.getElementById("email").value;
-            let roommate_name = document.getElementById("roommate_name").value;
-            let message = document.getElementById("message").value;
+            let ids = [ "self_name", "self_email", "self_nuid", "roommate_name", "roommate_email", "roommate_nuid" ];
 
-            document.getElementById("user_name_out").innerText = "User Name: " + user_name;
-            document.getElementById("email_out").innerText = "Email: " + email;
-            document.getElementById("roommate_out").innerText = "Roommate Name: " + roommate_name;
-            document.getElementById("message_out").innerText = "Message: " + message;
+            ids.forEach(id => {
+                let newid = `${id}_out`;
+                var value = get(id);
 
-            document.getElementById("hi0").classList = [ "hide" ];
-            document.getElementById("hi1").classList = [ "show" ];
-        }
+                if (value.length == 0) {
+                    del(newid);
+                } else {
+                    let field_title = id.startsWith("self_") ? "Your" : "Roommate's";
+                    var field_type = id.split("_")[1];
+                    field_type = field_type == "nuid" ? "NUID" : title(field_type);
 
-        document.getElementById("submit").addEventListener("click", generate_report);
+                    set(newid, `${field_title} ${field_type}: ${value}`);
+                }
+            });
+
+            set("message_out", get("message"));
+
+            if (checked("send_copy")) {
+                set("send_copy_out", `A copy of your responses were sent to your email, ${get("self_email")}.`);
+
+                dom("send_copy_out").classList = [ "show" ];
+            }
+
+            dom("hi0").classList = [ "hide" ];
+            dom("hi1").classList = [ "show" ];
+        };
+
+        dom("submit").addEventListener("click", generate_report);
     </script>
 </html>
